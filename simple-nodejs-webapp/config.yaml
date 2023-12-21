@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: the-simple-web
+  labels:
+    app: counter-server
+spec:
+  replicas: 3  
+  
+  selector:
+    matchLabels:
+      app: the-simple-web
+  template:
+    metadata:
+      labels:
+        app: the-simple-web
+    spec:
+      containers:
+      - name: the-simple-web
+        image: adrienmartinb/the_simple_web
+        readinessProbe:
+          httpGet:
+            path: /healthz  
+            port: 8080        
+          initialDelaySeconds: 5
+          periodSeconds: 10       
+        livenessProbe:
+          httpGet:
+            path: /healthz   
+            port: 8080        
+          initialDelaySeconds: 10  
+          periodSeconds: 10  
+        resources:
+          requests:
+            memory: "64Mi"   
+          limits:
+            memory: "128Mi" 
+        ports:
+        - containerPort: 8080 
+

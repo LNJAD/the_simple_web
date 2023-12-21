@@ -1,0 +1,23 @@
+docker build -t the_simple_web ./simple-nodejs-webapp/
+
+docker run -it -p 8085:8085  the_simple_web
+
+docker login
+
+docker tag the_simple_web adrienmartinb/the_simple_web
+
+docker push  adrienmartinb/the_simple_web
+
+j'ai du reinstaller kubectl car il ne marchait pas 
+
+minikube start --driver=docker
+
+kubectl create deployment the-simple-web --image=adrienmartinb/the_simple_web
+
+kubectl expose deployment the-simple-web --type=LoadBalancer --port=8080
+
+minikube service the-simple-web
+
+kubectl scale deployment/the-simple-web --replicas=3
+
+or we can use the yml file system: 
